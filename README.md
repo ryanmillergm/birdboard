@@ -1,28 +1,44 @@
-#Birdboard
+## Birdboard
 
 This is a mini basecamp clone to display projects with a timeline using the Laravel Framework.
 
-To Run Tests in windows:
-```.\vendor\bin\phpunit```
+### To Run Tests:
+Windows:
+```
+.\vendor\bin\phpunit
+```
 
-```.\vendor\bin\phpunit .\tests\Feature\ProjectsTest.php``
+```
+.\vendor\bin\phpunit .\tests\Feature\ProjectsTest.php
+```
 
 and
 
-```.\vendor\bin\phpunit .\tests\Unit\ProjectTest.php``` 
+```
+.\vendor\bin\phpunit .\tests\Unit\ProjectTest.php
+``` 
 
-or mac:
+Mac:
 
-```vendor/bin/phpunit tests/Feature/PorjectsTest.php```
+```
+vendor/bin/phpunit tests/Feature/PorjectsTest.php
+```
 
-or Linux
+Linux
 
-```php artisan test```
+```
+php artisan test
+```
 
 or
 
-```vendor/bin/phpunit```
-```vendor/bin/phpunit tests/Payments```
+```
+vendor/bin/phpunit
+```
+
+```
+vendor/bin/phpunit tests/Payments
+```
 
 
 
