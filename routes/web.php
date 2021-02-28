@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Models\Project;
+use App\Http\Controllers\ProjectsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,12 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/projects', function() {
-    $projects = Project::all();
+Route::resource('projects', ProjectsController::class)->only([
+    'index', 'store'
+]);
 
-    return view('projects.index', compact('projects'));
-});
-
-Route::post('/projects', function() {
-    Project::create(request(['title', 'description']));
-});
