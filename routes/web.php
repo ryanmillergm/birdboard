@@ -19,6 +19,6 @@ Route::get('/', function () {
 });
 
 Route::resource('projects', ProjectsController::class)->only([
-    'index', 'store'
+    'index', 'store', 'show'
 ]);
 
