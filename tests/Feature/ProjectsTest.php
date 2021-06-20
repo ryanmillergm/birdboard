@@ -19,10 +19,7 @@ class ProjectsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $attributes = [
-            'title' => $this->faker->sentence,
-            'description' => $this->faker->paragraph
-        ];
+        $attributes = Project::factory()->raw();
 
         $this->post('/projects', $attributes)->assertRedirect('/projects');
 
@@ -58,5 +55,15 @@ class ProjectsTest extends TestCase
         $attributes = Project::factory()->raw(['description' => '']);
 
         $this->post('/projects', $attributes)->assertSessionHasErrors('description');
+    }
+
+
+    public function test_a_project_requires_an_owner()
+    {
+        $this->withoutExceptionHandling();
+        
+        $attributes = Project::factory()->raw();
+
+        $this->post('/projects', $attributes)->assertRedirect('login');
     }
 }

@@ -20,5 +20,5 @@ Route::get('/', function () {
 
 Route::resource('projects', ProjectsController::class)->only([
     'index', 'store', 'show'
-]);
+])->middleware('auth');
 

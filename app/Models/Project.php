@@ -11,6 +11,17 @@ class Project extends Model
 
     protected $guarded = [];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title',
+        'description',
+        'owner_id'
+    ];
+
     public function path()
     {
         return "/projects/{$this->id}";
