@@ -6,20 +6,40 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Project;
+use App\Models\User;
 
 class ProjectsTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
+
+
+    public function only_authenticated_users_can_create_projects()
+    {
+        // $this->withoutExceptionHandling();
+
+        $attributes = Project::factory()->raw();
+
+        $this->post('/projects', $attributes)->assertRedirect('login');
+    }
+
+
     /**
      * A basic feature test example.
      *
      * @return void
      */
-    public function test_a_user_can_create_a_project()
+    public function test_a_user_can_create_a_project() 
     {
         $this->withoutExceptionHandling();
 
-        $attributes = Project::factory()->raw();
+        $this->actingAs(User::factory()->create());
+
+        // $attributes = Project::factory()->raw();
+
+        $attributes = [
+            'title' => $this->faker->sentence,
+            'description' => $this->faker->paragraph
+        ];
 
         $this->post('/projects', $attributes)->assertRedirect('/projects');
 
@@ -31,6 +51,8 @@ class ProjectsTest extends TestCase
 
     public function test_a_user_can_view_a_project()
     {
+        $this->actingAs(User::factory()->create());
+
         $this->withoutExceptionHandling();
 
         $project = Project::factory()->create();
@@ -44,6 +66,8 @@ class ProjectsTest extends TestCase
     // Validation Test
     public function test_a_project_requires_a_title()
     {
+        $this->actingAs(User::factory()->create());
+
         $attributes = Project::factory()->raw(['title' => '']);
 
         $this->post('/projects', $attributes)->assertSessionHasErrors('title');
@@ -52,18 +76,10 @@ class ProjectsTest extends TestCase
 
     public function test_a_project_requires_a_description()
     {
+        $this->actingAs(User::factory()->create());
+
         $attributes = Project::factory()->raw(['description' => '']);
 
         $this->post('/projects', $attributes)->assertSessionHasErrors('description');
-    }
-
-
-    public function test_a_project_requires_an_owner()
-    {
-        $this->withoutExceptionHandling();
-        
-        $attributes = Project::factory()->raw();
-
-        $this->post('/projects', $attributes)->assertRedirect('login');
     }
 }
