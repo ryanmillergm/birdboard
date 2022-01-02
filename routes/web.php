@@ -18,11 +18,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['auth:sanctum', 'verified'], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::resource('projects', ProjectsController::class)->only([
-        'index', 'store', 'show'
+        'index', 'create', 'store', 'show'
     ]);
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
 });
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+
+// Route::group(['auth:sanctum', 'verified'], function () {
+//     Route::resource('projects', ProjectsController::class)->only([
+//         'index', 'store', 'show'
+//     ]);
+//     Route::get('/dashboard', function () {
+//         return view('dashboard');
+//     })->name('dashboard');
+// });
