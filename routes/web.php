@@ -18,9 +18,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('projects', ProjectsController::class)->only([
-    'index', 'store', 'show'
-])->middleware('auth');
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('projects', ProjectsController::class)->only([
+        'index', 'store', 'show'
+    ])
+})
+
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
