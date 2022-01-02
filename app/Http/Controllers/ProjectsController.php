@@ -9,7 +9,7 @@ class ProjectsController extends Controller
 {
     public function index()
     {
-        $projects = Project::all();
+        $projects = auth()->user()->projects;
 
         return view('projects.index', compact('projects'));
     }
@@ -18,16 +18,20 @@ class ProjectsController extends Controller
     {
         $attributes = request()->validate([
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
         ]);
 
-        Project::create($attributes);
+        auth()->user()->projects()->create($attributes);
 
         return redirect('/projects');
     }
 
     public function show(Project $project)
     {
+        if (auth()->user()->isNot($project->owner)) {
+            abort(403);
+        }
+        
         return view('projects.show', compact('project'));
     }
 }

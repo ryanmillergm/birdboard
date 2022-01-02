@@ -18,7 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('projects', ProjectsController::class)->only([
-    'index', 'store', 'show'
-]);
-
+Route::group(['auth:sanctum', 'verified'], function () {
+    Route::resource('projects', ProjectsController::class)->only([
+        'index', 'store', 'show'
+    ]);
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
