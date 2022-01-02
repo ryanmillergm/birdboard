@@ -18,14 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['auth:sanctum', 'verified'], function () {
     Route::resource('projects', ProjectsController::class)->only([
         'index', 'store', 'show'
-    ])
-})
-
-
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+    ]);
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
