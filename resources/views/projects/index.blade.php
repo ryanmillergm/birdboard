@@ -16,7 +16,7 @@
     </div> --}}
 
     <header class="flex items-center mb-3 px-2 pb-4">
-        <div class="flex justify-between items-center w-full">
+        <div class="flex justify-between items-end w-full">
             <h2 class="text-gray-400 text-sm font-normal">My Projects</h2>
             <a href="{{ url('/projects/create')}}" class="button">New Project</a>
         </div>
