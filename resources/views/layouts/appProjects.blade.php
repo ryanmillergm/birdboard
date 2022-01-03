@@ -33,7 +33,7 @@
             @endif
 
             <!-- Page Content -->
-            <main class="container mx-auto">
+            <main class="container mx-auto py-8" >
                 @yield('content')
             </main>
         </div>
