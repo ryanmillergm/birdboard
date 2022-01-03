@@ -8,11 +8,23 @@ use Tests\TestCase;
 use App\Models\Project;
 use App\Models\User;
 
-class ProjectsTest extends TestCase
+class ManageProjectsTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
 
 
+    // Optionally you can put all tests into one and say:
+    public function test_guests_cannot_manage_projects()
+    {
+        $project = Project::factory()->create();
+
+        $this->get('/projects')->assertRedirect('login');
+        $this->get('/projects/create')->assertRedirect('login');
+        $this->get($project->path())->assertRedirect('login');
+        $this->post('/projects', $project->toArray())->assertRedirect('login');
+    }
+
+    // or do the following 3 tests:
     public function test_guests_cannot_create_projects()
     {
         // $this->withoutExceptionHandling();
@@ -47,6 +59,8 @@ class ProjectsTest extends TestCase
         $this->withoutExceptionHandling();
 
         $this->actingAs(User::factory()->create());
+
+        $this->get('/projects/create')->assertStatus(200);
 
         // $attributes = Project::factory()->raw();
 
