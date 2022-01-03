@@ -18,9 +18,9 @@
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
-    <body class="font-sans antialiased">
+    <body class="bg-grey-light font-sans antialiased">
 
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen">
             @livewire('navigation-menu')
 
             <!-- Page Heading -->
@@ -33,7 +33,7 @@
             @endif
 
             <!-- Page Content -->
-            <main class="container mx-auto py-8" >
+            <main class="container mx-auto py-8 px-4 sm:px-6 lg:px-10" >
                 @yield('content')
             </main>
         </div>
