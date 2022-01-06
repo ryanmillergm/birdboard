@@ -23,7 +23,7 @@ class ProjectsController extends Controller
 
         $project = auth()->user()->projects()->create($attributes);
 
-        return view('projects.show', compact('project'));
+        return redirect($project->path());
     }
 
     public function show(Project $project)
