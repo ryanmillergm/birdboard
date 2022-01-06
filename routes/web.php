@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\ProjectTasksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('projects', ProjectsController::class)->only([
         'index', 'create', 'store', 'show'
     ]);
+    Route::post('/projects/{project}/tasks', [ProjectTasksController::class, 'store']);
+    Route::patch('/projects/{project}/tasks/{task}', [ProjectTasksController::class, 'update']);
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

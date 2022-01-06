@@ -16,13 +16,30 @@
         <div class="lg:flex -mx-3">
             <div class="lg:w-3/4 px-3 mb-6">
                 <div class="mb-6">
-                    {{-- tasks --}}
                     <h2 class="text-gray-400 text-lg font-normal mb-3">Tasks</h2>
 
-                    <div class="card mb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus alias eos ipsa ducimus a debitis iure rem ex consequuntur. Repudiandae?</div>
-                    <div class="card mb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus alias eos ipsa ducimus a debitis iure rem ex consequuntur. Repudiandae?</div>
-                    <div class="card mb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus alias eos ipsa ducimus a debitis iure rem ex consequuntur. Repudiandae?</div>
-                    <div class="card mb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus alias eos ipsa ducimus a debitis iure rem ex consequuntur. Repudiandae?</div>
+                    {{-- tasks --}}
+                    @foreach ($project->tasks as $task)
+                        <div class="card mb-3">
+                            <form method="POST" action="{{ $task->path() }}">
+                                @method('PATCH')
+                                @csrf
+
+                                <div class="flex" style="align-items: baseline">
+                                    <input name="body" value="{{ $task->body }}" class="font-medium w-full {{ $task->completed ? 'text-grey' : '' }}">
+                                    <input name="completed" type="checkbox" onChange="this.form.submit()" {{ $task->completed ? 'checked' : '' }}>
+                                </div>
+                            </form>
+                        </div>
+                    @endforeach
+
+                    <div class="card mb-3">
+                        <form action="{{ $project->path() . '/tasks' }}" method="POST">
+                            @csrf
+
+                            <input placeholder="Add a new task..." class="w-full" name="body">
+                        </form>
+                    </div>
                 </div>
 
                 <div>
