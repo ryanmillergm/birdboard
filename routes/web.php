@@ -24,6 +24,7 @@ Route::group(['middleware' => 'auth'], function () {
         'index', 'create', 'store', 'show'
     ]);
     Route::post('/projects/{project}/tasks', [ProjectTasksController::class, 'store']);
+    Route::patch('/projects/{project}/tasks/{task}', [ProjectTasksController::class, 'update']);
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
