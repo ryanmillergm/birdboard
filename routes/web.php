@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('projects', ProjectsController::class)->only([
-        'index', 'create', 'store', 'show'
+        'index', 'create', 'store', 'show', 'update'
     ]);
     Route::post('/projects/{project}/tasks', [ProjectTasksController::class, 'store']);
     Route::patch('/projects/{project}/tasks/{task}', [ProjectTasksController::class, 'update']);
