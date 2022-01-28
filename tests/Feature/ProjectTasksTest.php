@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\Setup\ProjectTestFactory;
 use Tests\TestCase;
 
 class ProjectTasksTest extends TestCase
@@ -17,7 +18,6 @@ class ProjectTasksTest extends TestCase
         $project = Project::factory()->create();
 
         $this->post($project->path() . '/tasks')->assertRedirect('login');
-
     }
 
     public function test_only_the_owner_of_a_project_may_add_tasks()
@@ -69,13 +69,12 @@ class ProjectTasksTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->signIn();
-
-        $project = auth()->user()->projects()->create(Project::factory()->raw());
-
-        $task = $project->addTask('Test task');
-
-        $this->patch($project->path() . '/tasks/' . $task->id, [
+        $project = app(ProjectTestFactory::class)
+            ->ownedBy($this->signIn())
+            ->withTasks(1)
+            ->create();
+            
+        $this->patch($project->path() . '/tasks/' . $project->tasks[0]->id, [
             'body' => 'changed',
             'completed' => true
         ]);
